@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Enablement for Faculty | Brighton International School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#285339;      /* Brighton deep green */
+    --navy-2:#347a4c;    /* Brighton mid green */
+    --gold:#c19a2e;      /* Brighton gold */
+    --gold-soft:#f4ead0;
+    --ink:#20281f;
+    --muted:#5f6b60;
+    --line:#e4eae2;
+    --bg:#f4f7f3;
+    --card:#ffffff;
+    --green:#1f8a55;
+    --green-bg:#e7f5ee;
+    --red:#c0392b;
+    --red-bg:#fbeae8;
+    --shadow:0 6px 24px rgba(20,50,30,.09);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3,h4{font-family:'Poppins','Inter',system-ui,sans-serif;color:var(--navy);line-height:1.25;
+    letter-spacing:-.01em}
+  a{color:var(--navy-2)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+
+  /* Top bar with school logo */
+  .topbar{background:#fff;border-bottom:3px solid var(--gold)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-top:14px;padding-bottom:14px}
+  .topbar img.logo{height:58px;width:auto;display:block}
+  .topbar .tb-tag{font-size:.78rem;color:var(--navy);font-weight:700;letter-spacing:.03em;text-align:right}
+  @media(max-width:600px){ .topbar img.logo{height:44px} .topbar .tb-tag{display:none} }
+
+  /* Header */
+  header.hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;padding:46px 0 40px;
+  }
+  header.hero .wrap{position:relative}
+  .crest{display:inline-flex;align-items:center;gap:10px;font-size:.8rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold-soft);margin-bottom:14px;font-weight:600}
+  .crest .dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+  header.hero h1{color:#fff;font-size:2.2rem;margin:0 0 10px}
+  header.hero p.lede{color:#dbe4f4;font-size:1.08rem;max-width:680px;margin:0 0 22px}
+  .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    color:#fff;padding:6px 13px;border-radius:999px;font-size:.82rem}
+
+  /* Progress */
+  .progress-shell{position:sticky;top:0;z-index:30;background:rgba(245,247,251,.92);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 0}
+  .progress-shell .wrap{display:flex;align-items:center;gap:14px}
+  .bar{flex:1;height:10px;background:#e1e7f1;border-radius:999px;overflow:hidden}
+  .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#e6be4d);
+    border-radius:999px;transition:width .5s ease}
+  .progress-label{font-size:.82rem;color:var(--muted);white-space:nowrap;font-weight:600}
+  .reset-btn{background:none;border:1px solid var(--line);color:var(--muted);
+    font-size:.74rem;padding:4px 10px;border-radius:8px;cursor:pointer}
+  .reset-btn:hover{color:var(--navy);border-color:var(--navy)}
+
+  section.block{padding:36px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+  .card-pad{padding:26px 28px}
+
+  .eyebrow{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin:0 0 8px}
+
+  /* How it works grid */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .mini h4{margin:.2rem 0 .4rem;font-size:1.02rem}
+  .mini p{margin:0;color:var(--muted);font-size:.92rem}
+  .step-n{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--navy);
+    color:#fff;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;font-family:'Poppins',sans-serif}
+
+  /* Pathway map */
+  .map{display:flex;flex-direction:column;gap:0;margin-top:6px}
+  .map-item{display:flex;gap:16px;align-items:flex-start;position:relative;padding:6px 10px 16px;
+    border-radius:10px;cursor:pointer;transition:background .15s}
+  .map-item:hover{background:#eef4ea}
+  .map-item:hover .map-num{background:var(--gold);border-color:var(--gold);color:#3a2e05}
+  .map-item:focus{outline:2px solid var(--gold);outline-offset:2px}
+  .map-jump{margin-left:auto;align-self:center;color:var(--navy-2);font-size:.82rem;font-weight:700;
+    white-space:nowrap;opacity:.5;transition:opacity .15s}
+  .map-item:hover .map-jump{opacity:1}
+  .next-btn{margin-top:18px;background:var(--navy);color:#fff;border:0;padding:11px 20px;border-radius:9px;
+    font-weight:700;cursor:pointer;font-size:.9rem}
+  .next-btn:hover{background:var(--navy-2)}
+  .map-rail{display:flex;flex-direction:column;align-items:center}
+  .map-num{width:34px;height:34px;border-radius:50%;background:var(--gold-soft);color:var(--navy);
+    border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;
+    font-family:'Poppins',sans-serif;flex:none}
+  .map-line{width:2px;flex:1;background:var(--line);min-height:18px}
+  .map-item:last-child .map-line{display:none}
+  .map-body{padding-bottom:4px}
+  .map-body strong{color:var(--navy);display:block}
+  .map-body span{color:var(--muted);font-size:.9rem}
+
+  /* Lessons */
+  .lesson{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;scroll-margin-top:80px}
+  .lesson-head{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;
+    user-select:none;transition:background .2s}
+  .lesson-head:hover{background:#fafbfe}
+  .lnum{flex:none;width:46px;height:46px;border-radius:12px;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.15rem;font-family:'Poppins',sans-serif}
+  .lesson.done .lnum{background:var(--gold);color:#3a2e05}
+  .lhead-text{flex:1;min-width:0}
+  .lhead-text h3{margin:0;font-size:1.16rem}
+  .lhead-text .sub{color:var(--muted);font-size:.9rem;margin-top:2px}
+  .lmeta{display:flex;align-items:center;gap:12px;flex:none}
+  .badge{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .badge.time{background:#eef2f9;color:var(--muted)}
+  .badge.status{background:#eef2f9;color:var(--muted)}
+  .lesson.done .badge.status{background:var(--green-bg);color:var(--green)}
+  .chev{transition:transform .3s;color:var(--muted);font-size:1.1rem}
+  .lesson.open .chev{transform:rotate(180deg)}
+
+  .lesson-body{display:none;border-top:1px solid var(--line);padding:8px 24px 26px}
+  .lesson.open .lesson-body{display:block}
+
+  .objective{background:var(--gold-soft);border-left:4px solid var(--gold);
+    padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0}
+  .objective .eyebrow{margin-bottom:4px}
+  .objective p{margin:0;color:var(--ink)}
+
+  /* Collapsible extra detail (keeps lessons uncluttered) */
+  .more{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:#fbfdfa}
+  .more>summary{cursor:pointer;padding:10px 14px;font-weight:700;color:var(--navy);font-size:.9rem;
+    list-style:none;display:flex;align-items:center;gap:8px}
+  .more>summary::-webkit-details-marker{display:none}
+  .more>summary::before{content:"\25B8";color:var(--gold);font-size:.8rem;transition:transform .2s}
+  .more[open]>summary::before{transform:rotate(90deg)}
+  .more>p{margin:0;padding:0 14px 13px;color:var(--ink);font-size:.92rem}
+
+  .why{color:var(--ink)}
+  .builds{font-size:.88rem;color:var(--muted);background:#f3f6fb;border:1px dashed var(--line);
+    padding:10px 14px;border-radius:10px;margin:14px 0}
+  .builds b{color:var(--navy-2)}
+
+  .sec-label{display:flex;align-items:center;gap:8px;margin:24px 0 10px;font-weight:700;color:var(--navy);
+    font-size:1.02rem}
+  .sec-label .ico{width:26px;height:26px;border-radius:7px;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.85rem;flex:none}
+
+  .video-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;
+    background:#000;border:1px solid var(--line)}
+  .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video-frame.facade{cursor:pointer;background-size:cover;background-position:center;
+    display:flex;align-items:center;justify-content:center}
+  .video-frame.facade::after{content:"";position:absolute;inset:0;background:rgba(10,16,30,.30);transition:background .2s}
+  .play-btn{position:relative;z-index:2;width:70px;height:50px;border-radius:13px;background:#ff0000;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:transform .15s}
+  .play-btn::before{content:"";border-style:solid;border-width:12px 0 12px 20px;
+    border-color:transparent transparent transparent #fff;margin-left:4px}
+  .video-frame.facade:hover::after{background:rgba(10,16,30,.14)}
+  .video-frame.facade:hover .play-btn{transform:scale(1.08)}
+  .video-frame.facade:focus{outline:3px solid var(--gold);outline-offset:2px}
+  .video-cap{font-size:.82rem;color:var(--muted);margin-top:6px}
+  .video-cap a{font-weight:600;white-space:nowrap}
+
+  .reads{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+  .reads li{border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;transition:border-color .2s,background .2s}
+  .reads li:hover{border-color:var(--gold);background:#fffdf6}
+  .reads a{font-weight:600;text-decoration:none;color:var(--navy)}
+  .reads a:hover{text-decoration:underline}
+  .reads .src{display:block;font-size:.78rem;color:var(--muted);font-weight:400;margin-top:2px}
+  .reads .rt{font-size:.74rem;color:var(--muted);white-space:nowrap;background:#eef2f9;
+    padding:3px 9px;border-radius:999px;flex:none}
+
+  .tools{display:flex;flex-wrap:wrap;gap:10px}
+  .tool{display:inline-flex;flex-direction:column;border:1px solid var(--line);border-radius:11px;
+    padding:11px 14px;text-decoration:none;min-width:150px;transition:border-color .2s,transform .15s}
+  .tool:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .tool b{color:var(--navy)}
+  .tool span{font-size:.79rem;color:var(--muted)}
+  .free-tag{font-size:.68rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+
+  .tryit{background:#12301e;color:#e7f2ea;border-radius:12px;padding:18px 20px;margin-top:6px}
+  .tryit .eyebrow{color:var(--gold)}
+  .tryit h4{color:#fff;margin:2px 0 8px}
+  .tryit ol{margin:8px 0 14px;padding-left:20px}
+  .tryit ol li{margin-bottom:4px}
+  .prompt-box{background:#0c2413;border:1px solid #2f5540;border-radius:9px;padding:13px 14px;
+    font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.86rem;color:#d3e9d8;white-space:pre-wrap}
+  .copy-btn{margin-top:10px;background:var(--gold);color:#1a1405;border:0;font-weight:700;
+    padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
+  .copy-btn:hover{background:#e6be4d}
+
+  /* Quiz */
+  .quiz{border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:10px;background:#fcfdff}
+  .quiz h4{margin:0 0 4px}
+  .quiz .qsub{color:var(--muted);font-size:.88rem;margin:0 0 16px}
+  .q{margin-bottom:18px}
+  .q .qtext{font-weight:600;margin-bottom:9px}
+  .q .qtext .qn{color:var(--gold);font-family:'Poppins',sans-serif;margin-right:6px}
+  .opt{display:block;border:1px solid var(--line);border-radius:9px;padding:10px 13px;margin-bottom:8px;
+    cursor:pointer;transition:border-color .15s,background .15s;font-size:.95rem}
+  .opt:hover{border-color:var(--navy-2)}
+  .opt input{margin-right:9px}
+  .opt.correct{background:var(--green-bg);border-color:var(--green)}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red)}
+  .opt.locked{cursor:default;pointer-events:none}
+  .explain{display:none;font-size:.87rem;margin-top:6px;padding:9px 12px;border-radius:8px;
+    background:#eef2f9;color:var(--ink)}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg)}
+  .explain.no{background:var(--red-bg)}
+  .quiz-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px}
+  .check-btn{background:var(--navy);color:#fff;border:0;padding:10px 20px;border-radius:9px;
+    font-weight:700;cursor:pointer;font-size:.92rem}
+  .check-btn:hover{background:var(--navy-2)}
+  .score{font-weight:700;font-size:.95rem}
+  .score.pass{color:var(--green)}
+  .score.fail{color:var(--red)}
+
+  .carry{margin-top:20px;border-top:1px dashed var(--line);padding-top:16px;color:var(--muted);font-size:.92rem}
+  .carry b{color:var(--navy-2)}
+
+  /* Finish */
+  .finish{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border-radius:var(--radius);
+    padding:34px 30px;text-align:center}
+  .finish h2{color:#fff}
+  .finish p{color:#dbe4f4;max-width:620px;margin:8px auto}
+  .finish .pill{margin-top:14px;display:inline-block}
+
+  footer{padding:34px 0 46px;background:var(--navy);color:#cddbd0;font-size:.85rem;text-align:center;margin-top:30px}
+  footer a{color:var(--gold-soft)}
+
+  @media(max-width:760px){
+    header.hero h1{font-size:1.7rem}
+    .grid3{grid-template-columns:1fr}
+    .card-pad{padding:20px}
+    .lesson-head{padding:16px}
+    .lesson-body{padding:8px 16px 22px}
+    .lmeta .badge.time{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATkAAACSCAYAAAA+Tb1oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAALVtJREFUeNrsfQt8FNW9/y/I+5XwCoJAlkd4iJqgxSp4zVK1tVUh1tqrtpbltrbaalms1t6qN0urtr3VEqqlVv3fLNbru2URLVS5simiragsIiDvDYiE8MiGR1488p/f5Hc2Z87O7M6+kt3w+/oZs8ycOXPOmXO+8/39ziunpaUFGAwGo7OiCxcBg8FgkmMwGAwmOQaDwWCSYzAYDCY5BoPBYJJjMBgMJjkGg8Ekx2AwGExyDAaDwSTHYDAYGYeunSUjjuJRLu2PUzs8wcDuIL9aBoOByMn2uatEbh7tKJBOL2ayYzAYWU1yFuSmgsmOwWCSyy6Ss0luTHYMBiO7SC5BcmOyYzDOcGR87yqSm3YgKVVYEdyQvEFwz/fnwvIX3gDnxdOiRTdbO3Zp8Xm1w8Gvn8FgJZfRyg3JbfY3vw13/vAncODAfvjbitdg9q23webNG+A3Cx4G//vvsrJjMJjkMovk4iW3jZs+hkVP/R5Wvbca6psaYHDeQLjruz9ismMwGJlFcomQ238veAQq15oT2KTRhXD7nDtg1sxvMNkxGExynYfcUkR287WjXCO7EFcRBoNJLhFiy9P+lKaT3FJAdnVIdEx2DAaTXLzk5qYjN1XkNqhfL/j2DAe8/a/9sPXQUWg6ecIW2S1b9hdYVPFH2LxzK5Mdg8Ekl3nk1rt7Vyi9dDR858o++r9/uXA7BPfUwql+faEWTjPZMRiM9JJcusnt65f2hr59csLnkeSq9hzWf7dAjk521SebbJuxTHYMBpNcSslt0pjxcMsNN8Gt3/peUuRmRnICp3NyoKlPHzh0qpnJjsFgkms/cvuhRijXXXdDSsgtGskx2TEYTHIZTW4zLx4F37isX1Rys0NyTHYMBpNcxpAb4srzR8Dt1wyyRW7xkFy8ZHfRuUXwiwcehsnnXsBkx2CcKSSXbnK7xTkAhuefFXe64iG5eMmuZOo0+Om8nzPZMRidmeQyldySIbl2Iju3RnRerm4MRoaSXKaTWypITia7loEDYV/90VSTXRW0zotlsmMwMoXksoXcUklyTHYMxhlAcukktwsL8uHOmUNTSm7pIDkmOwajc5OcR/tTZofclr72KjyJDXrXtqgPumTMcJh5cT+4cHKvtGUmHSQncBJ9dv37QW1zY0rJTiO5HK6GDEb6ENfy57i0+OO/XADL/7oSTmvk+NXrr4C5/3V3VIJDcvvVTRPAMyc/rQSXbnTV8tun7gjkN52EAd17WoZDJXvNLdfC7NtugjFjC/WywjLDqWsWLgEnV0MGI41t1y653Tfvfpg06XxduSG52VFuszTlNiWLic0M3U+fhu4a2XXr0gVO4EIAFsoOya5SIzuh7Nb618ETix6DxS8/BwdCh7jmMRiZRHLep17Uye3un7vPWHJLFdkVjHTAXQ/O45rHYGQKyfXu2UpWsfxuY/P6wfeuHt7pyS0Zshv2fAVM/+JlST3vsgln2zFvg+9sqQ7ajA87mYptPj6gxRuKM70Yd16y6VTiwzJwWKQ7gPGKv9Hit5H3qPm1cX/E87V7fJQ2fxLVQH+uFrfHZpmVUjrVuiPKya/FFYjzPWD5u7X73AnW42j1Iu56lhTJFQwfqf89UHvIktxmTh0CX7m8/xn9tbBLdpdOuzwZghONCivYXOUy9tZixSiisOu1Px6tsvhsNBgnxTvLRhrsxivgoPjl9OIAaS81dLtk7ALjStLrKb8yMA8lyn34Z46WXq+VN8Yk72K2SohIIKo3h/I42+R+n0nDnkVHWQqqnSdGXZFHSFRRWfuldJeKdNN7LY9STmbvdS4+R7vHlUDanVT3XMo79cllnpOT8yftz5XaMUY7dmrHU9rxfbzW0tIylsJ8gNe1fw80e5BV76pPvHTsSUXnuXbOGCa3H1x/cWaRWzp7V+NFs0Z2zbn9IdRYHz6H82D/8vwytSxnBAO7/QkQnldqWNcL0qEvrE+QXYwGrsYZlCrcaKFCKE4XGIcULY6ncmtxlEtEZ/teIgYv5aeKGrbP6ktP4V105KrlE+U5gUTKzOL+edr95RZEjfsHL5ZUlJqPVVKDd1sQA5JTgfaMnChl4KN3WUkfJb/NjweGL42lpMiiEGldmISiw7q1K9Z70ohMo6qWHPq9Q/vzoXaspL+/RiIU1+0qubxYiZtW2P+MV2+xlF3vbj0MJFffUJ/KR8gKKFwhkZioAgapkVdo//bbNAvDJCeHp98eMrX8FO9sbNhmjdkCIYu0xyI48bz5dswzMrvcRKqC7EPpSF+U+wNR1Mu8aGVGylOPz4SY/BTGY/UMiUhtkTVep/fqJWGDSlivQ3GYsHOpLnjjLTSqr2ZlGA1jSNHdqB0DiOiutArcJdEWlj+wBzNZauBIdYT0FZYJwZWieANKvO50FYpCcPPs+p8UYi5tx/doR43H81GI9X79FmVmm+Dk+LQDy2opncIy95HJaxcVRLDtBVRxFxHRvaIdtZrCuyjFJNeN6SlDSc6k0RWnMF654RRQw0oHvNTYKhMlBiK69ZnyolNBcFJcLhMfnDD1liaiquhjWCXerfKu7RJdcXuUpWaaonrbKf2uJYWXOpJjZDYUUyOQwnhD5Lex7dpIQMW5oM2/laxaLE9l/jMYbmjzq7mTeLfyvbNs9OYvVD4k/gSIrs5GmG/i/zS1hubpVdK5b9LvH5C6Y5KzQs8e3Ttz9oIpji/dpCFM0/XxDm0wabjeVA5HyERIPalCxQWTKC+fpObsuDpC5Baok0xdf5ymbsx3rKm1V+hvrXaspN878aDfK/FaQiRXdO75cODA/k5LbFdc5tCPTljxi6WvpC/F0YfiqaAJpFsoEh8w7KAU2nqS/SmIr1yJ245bwJkk0aUNtpTcu++tjjg3YXTPrK4VQ4f0h7nfnQTbq47A/70ThMYm88Uy8/r3zjaVpVZOdxqUjCDQyjTE7WxHxdiZSC6VZSYTZa6dAeikuGXVV5QpRNc10Rv79M7exTOQ4O6aMw4er9gO+w8ciRr2ntsnwqt/2weBT/ZlMsnlKWoIKxsONl2coAPaLsmVpzFuVTG2J4qlYQ120ZHmgDOV9QkJS8l/ns37sEd2DrT18BZRHXHZvN+fjsLpGsVGLumMnzwkuJ/fNQEWPVsVk+Aw7Nn5XeFO10h4QqOKNBJdslhi0SiDNCI9ZWRBX/UCUnHpMCczwXewIMuqda5iOqYC66Gt86fYruuAxt1heDHwG8dTQoKzItJqroYbxfpNG2Dapf/W4W9x3/6T+iFw9FiLfsQL142jYdvOBtiyvSZqOPTXOS8ZBqvWtBIhEl3xecMytZLjjP8ZdMyHNsdxGRGdMxUPIdOjnHwvpZlYENjAzPIbZxnI5Wn3WNrJ9IDdD2OeCdFhJ8hi6dRsGsCcuebqkCFDY4ZZ90k9rFxdAw1NJy3DjCvoD9ddNQT69W01dZ9fUqP7xMzC3XJ9fmuBvX8MlqwIQt2R1tkCPbp3gynntaqWiy7I1X7b95khSRWO6aFP/4qF7908XgvfWyPEJp3oZkzvn8mKLiBJffzroUpVRl/5Vdq/r49HedE0JZ9iRs4ignNmYo+lNP2sVPtdIF3SO19IUfjjLM94FO6sDCiD4mR7pJNwL8hE56L3ISzCMpw2mCb3SUJKLm4g2dx+awHs/uxw+Lhg4kD40rSzoUkjPvz322uC8Os/bAkrMCQyvC7fg/+WCc778iZNVXWFX957ISzwTIVZXxkLm7cfgn9+tCfuNH7l8nyorjkZdX4rmqj/ft0EneAQSIojhvXQiK0+GxSdXMk8pOoEvFTp4vX1OEm1zUrgK5+WBhQlz9iIsKPFAcZhEDjx3JUun0+GIR2O/kTLrRSMY+gqaEWU7CQ5BCq0XKk3smBET7js4r7wsx9NCJ9DP9h7H7btl9CntzEJYwvaem3ffrda/zt5/EAYNrSrHv+XS/qD5+7JuqKL681r6ULC2rD5uOn1CePy4aGfXggP3zcRrioxbmuB99XWndRVHWLON0dkxbg6IroqyW/jieNeVAROOoolwsyF9A7tCCgkm4p4Oju5VSX6YbD5gQkmWP9C9A7XKx/b4vYsnJQPBs7t39OU/EaNaFsFZctOa4c/kpkAKjvExq2HDf43jE+YrHbhGNVKXAdrm0zN2Htvd+idDFZAc/WzfU2auboH7nt4veWQkwQQTPM79ihf1mQIU8x0KKIJ8OkmuVlJDEE4k4afpOrDIEzePGjrzKhKcnBxiFwI6hi6diO6LimWp5bYX9Om3iaMsbd6iSBGVH8/eyQAb1a2keM1VwyBs4fYV1OD8swXFEBFhsrMDk6ebNH9cSkkONzIJt0kJ6uu3CTjkivr3DSZHj4Tk4dhv8xmpWBsmjOVXEA+QqdCdN72GkOX9mld2CHx2z8Goan5RJi40OS0A/TpCeD9Ly/7FH7yi090Xx0qPln1JYop5w21NeYPFdxLy7bEV7gmJu3BQwfa22QNgb25gXbiQkJ2p9P0oPTKPXPlmTJyPsNJTn7Hyc73LbWwBFJJdO02WDgmyYnt9EadPSLuyP/g/UQ/tuyoCRPcbTc77Jf01QNhwth8wznsZcXOiMcrPksow4MHGBXdxHH9wr/R5/aCL3Joie/vhxPqUW04ccLw76LJF8B77/6jI82ZuhRUVi8Yl+RJxxfZo6hPDzBifRhk94E70XdC9wmSW5zCcXdWsyK8kGafaRe7/ow+vYx7N2z/7HTMyH/kOk8/iiYP1/+NPrYHf/uRru7s4t47HPCl6Y6Ijob1Gz8H3wr7qwDXN5zS/54/qY/hfPHktn9/8HGdPsVLxWf7jqer/NtrGaDiFLshsKJWSRW1PMWNFl+C3DM8t53XKkumjDsK5WDsZEq0c8hL99dBGtYLpGFMc2TzGtK4LqElyQUDu2MOEWg8Yc/SxaEld80ZESY6xLKVn9u6V/jgcEjJA3PPN8SBWLu+xnZGP69pJSrsXMBhIgjsURWmKg4tmTFtIDzz6MWG+47Xt8Cn2xLbQrBLl5hllPahGDR+K1dqCKlSDrJJMzvVHRHU0SEPsK3oyAGlNpBqNVuS5DspoSXy46krLmgbKlRqcyykI4F361WILjedL8YWU61+523o3cs46PbE6VNxPUjubEBFt3VHY8x7/l65O/wb/W9IlqgMharDDgl5FkQ04Ng4JCzE177UanpPu2hwmOAEAaoEh9O/rDoaCkYOjPrMvbUHDf8ePuwc2LDp41S9O4eFD0U1PQT5LLQxTswh3Vtqw/SYE4fayou3YdBqtbJ/DgeUBmzOXihNgqQcSZKcM5EXquYrXpPT5J3gx8dvZ3wkfUAqSMHNsVFXRNoKknB7zGmPr080kgsvjBiqrYXCMeOSelB9QxsZIUmNHxt7FRP0v8k9qkIZ4oBgmfzs4rU3W53+06f2hckTz9b/WhHcW5V1UPboRsvpX5deNBIaG0/GVQa45+qRo4b8+BNsDFhp5d2hcHQ5OuhdNK3JQYQjNleJudEIhS+w8ItFq6iLFbXlUxsV/Xuu0vicNhsDput6xTxeRWSHMzuc4nmU91Las6DIrmImQpfDx9XZQXkpUnxiiRCl28R0TIQ8pkjlhYpwF6o6ExLFeuKmDYzKyH3itDkrwWlFzplGdLYYInQkci26wM4GmDK2b8R5MbatVQm1+u1wjJtsWk6feo7ls1DhyQS49O874PyJ5xvI7ODhVhUoj72zgzVrP4eZXx6im6h3zh6pxXPKQHBr1h6DT7cfhZ2766JO3kdzd9Tw3vDeh9azLk7nmPfYHj12NFnz02VCQLkQuUWhWEfOE8t5TKamqsKKaGpXINrkapq+46M0FZG5g8MYKolc3tSOn5rc6qP43bGmIZEfx0d5F7MviugoozyY3Yrmbnm0+EnBuE3KM0Dpc8XYe9VjUnZiLJjIX6zyd5DiVqeFYTnih9AXz9LplF/xoXNTOc2mj4vZLWKbSa+N+uemd1Bi8i79CezF4aU0VaSL5Ey3JNT1evGo8BZyN117A0yacC6UPfbL8PWZXxwJP7x2UPjfaDb+a90ReH1l27xQnP3gGJkHwT2h8NxT9Ku5bjxHH9CLHRDvrD2sdyIIXHLhyPCc1O/d8374PBIaTvlCElr3STXk5fbSZ1KIebAIO1sS4sBfnJol0KDxpW9FDXz4cY1G5rE7RNBExR7iR5/8NGp43JKwpofxG7L2rbXwnR98K9xjjQolGNidktkD1FCEegicAavhOim/qmJCQgmeIVO44qkbxRDZOSI+YsEMSGPa5txGU3KGRpKXO8Do46ppMPy7+kCzbpJiT6iKQXn5MKmwrz54V1Zkm7cd0651j7gHzyPJ4fARnA+7ftNxWLcxFJ7mddXlBXDFZQMMBGcXOBTkow2D4MLzW32MvUg0NjZFNz1x0PD0qcN1JfjI41tiEmLvfv01pjOGMVnoIGVERBU1eKY0XCaxhOqGL4PTmLYZKtGUHErSJfgbN5h+9k//C1Ovmhq+Pn54Hvz+DkdGFVQ8m0vjkuc3l+ZLpnULvLW6FrbtOgL7a47pJIZmaV5uTyieNACmTW3tOEGCi7UOnf71yB8KwaNtZv7gvIHwgT+gbiw9wE5PNoPBSLOSw02RVRWy9fPsbps4Hg6XebruiuH6iiPopyv9Cvr4zP182BGx9M1dtqd09ejdB0AiuSEDBkWEYYJjMDqQ5LQG6Beqo2pf6+wCnPWwu7ptpsH+2hwYOqAlazOPqu8J72FdsU0tzgfHOT2hcEwvnfCw17W6phk+3FCnmc+HbPnrZBxpNIYfUzAali37i3yqMl6fBaRnGR0GI1OREt9yrN5V7IbWhxVs3rwBhgwcZCC5ndWnNJLL/l0N0fx8/a0jKY2ztsE4S6Jf335qL3UwDoILuw4YjDMI2Oub9EySWCQXFCS3fftWfazch5vaZiJtqGqAS5VpUgyAFsiBxmbjkk6XXjwd3nt/TUIkB63j6ZaykmOcYfCm1VyVGpc+HmbNv97Rh5HA620m1/ufVsP3rx7Lr0JBjj7P19hbO27cePjzS88apLjd+Eym7DAYDJuIZWuG1UZ1zT5wFIwxXPzs0FGoPniaS1FBz9zIqXiTz70AqvbuSYjkGAxG+kgu3BB37dkNJZdfERHgw60nuRQVnO5mFMiTRhfqfw+E2ib6t8NimQwGI5a5qjXEgNrDig12865t4TArPqqDJX/dxSUp4fhJI/En27PKYDDSRHJSg9T9cthQscHKJFdzrA76ZUhmcMqWusz5qHN6Q59e7dcDfKzhNDz0mnHLwwmFE9XVR/zJPMNx43kOaJ0vGQy+8omXznnocrl2LqSE169p5z3ab7zPESV6P7kpXFHCeLW4giZxhUj9B+Q0aOGc0DqhG8/7lLSJa37tmt8krxH5spGHIOXDUEZSnNiBU0zPDdGzAxZlHNKulVukKyJuJX2+KPGa3mvxvsVClg6r9ErhnJS3IIULqunCehAlzV75HromyirP6j0p+XNSXAEKH7J45xHP6iiS84PU+XDxRV+EN/xvhi/WHT8GfSFH+6/jx8td9oVB4a0EOwofbz0Rce6KGV+GsocfMHUDJMpz0DoxHT9AoqGU0V+siOqEc3HNQw2sxMY7L7NJhGZx1WkV2S01YifFh+edSgN1Ss/yK42hVLomr34bKw+VlD61jERjxnhylWfhsAGXlDZRxngNTIguIm6JaET8ojHHenfRCM4qvTi8yylIAsub3q8aDp9TSkQjys1j8ihxTbxbQW6YRnmFlTLtvL6gpkzSlG/89yyTPCzUwrpN3nn4WR1NcuEKuX3XDrj1lsiVUfoMyYf6A/tZF2vYsd84n7Z3j17t3ekwV6tUflUxySpMIhMnVezFUmWTiabKoiGqFXO+0ohxxYsKLR0BhdByKT67Y5/cyu/yKHmolM4FLQgD41ggEaFfauD6ngMmJKx/HKhM7bw3l0Q0JahsklQrguBEeh2k6vKI+DFf4cU0lHcpk1pcq+8Swfnp2XI9EOVdQeTvJYLzUxnWUdiQVBewTuZpYV2Zaq6GK/2mHVv0BovzMA+G2uaInuzZndlNkNwB48IFk8aO1wdSS50OVe3Q6eClxhUxWlz5+nqownplE4TMCSCTyhPrYWoY7X6hokpNCL0IG6XyZbcye0qogYXoPiQgv0Ue/HI6pDzI8QmCm6PEUS6pkHIT9RUPObslspktqedE3BJOiTBLJXNdN7fx35SvuVHyVQ6J7ZEhyHUpKdyQoi4riOj80kfCoC6lNGCY2fSh8LZ3m4zprKL5lfoI4PrGBn2V4MmFEw1hDjXEtwcCbvQsb86Mv3EJo2hHtmDdduPS7hcVTYH/W/VmyvxxNn2o6d4A2rb6N0mbUJvOGHF4pL/lJsouXohxhpVqQ5NMubD6ki6vp8ZbRA02GinhMwqIGET6S4mUki1HH8Wvp1f6KIl0LzbLF6ons4+dzQ9MnUpw0oeyUipXkQaXqlpJ/ZYr7yDjlBxIUhRWr6mEL11+BVSufdfgl+uTkwNdWmL75cTqH/KKIUPz+8KDc6OvPHz/bz61tfpHR6L6UAscOmpUctMvLYGK555uT5JzUeMoIb9YMnsvYBzqS51vQ925JD+amvcAKQ+fQiaqX6sU2hb+FMpiVhLmn3iWz0KNhsh/VQKRnSlIrqtsuAIECYuOmaWkDkshgdH7lKY5pJpK6H2IMnET+Tij5cuifM3qYLFJWQWiEKSP0pRHxA5ROiT8pOw7ZMZOlzhITsfqf62Br109MyJA7oiRtiKSlzeKBz17doVMx6Y9Rj5Asx7HFr7/8bp2IzkiAEEyC8i3kijq6IstH0GzRiMdQWrYdWYNm8zU9ZIJGM2v5SM1EpLCutv7vVLjnS+5AvKimdcSCXoVVZrIszGO0dqxkBRlLpnBQSUd8RBIickR72YyWTPF0BZz4Oq1Yrwcrmqb06VLxHi5YzZ6VzPN7GxsOgXbdtfBJztCUHu0GUbk94HRw/vA+YWJpfOjnUaliWY9mvdo5gvTpz0GAWMj0xqA8AklY7bil9xps9HIqJJ9SBYk5icyLI6iiNCPM9vk3kSILiiZTOVRSEqEdah+RzIXiyzKVKSpwET9Fgh/YhIfLozfTWa+j0ipFNpGP7jsqkUtvhwLdVeilFW0jhOnpHSrKI8uC5+b00LZZ5SSA5C2h3vxpWfh3y6Zbri45+B+fWJ6NmD/oQZY8e5eeO5vO2B1oEYnOMRnNcf1fz+zZCusWrsP6o41xxXvuxuNG16jWf/GimXtaaqqjS68ikyaMYOO60nB5UWr0OSnCZOC0ticMdKcS47veOGltJVIY+9k89gn+eyCUfx6dSqp0/0uG+8jPvtaKwvsoZbVOBFlUDIrvRIhuZX7XdrhjdcnSPmvlHyBeUq8Hsln55XSUK5aDvQ+yySXQ8b65IQNro+B8a+phPn3PwRPvWAk7UEFDjhclZmzH1TVFg3NJ0/D5mCdfgwd2AvGj+oHhaNyoWePsyzv2bCrBeqb22Y64NCR2bfeBiVfnaaWYXuZWCFSHuuSiMahEoLsc1IanqjU5VSpvRBlaz4aeiA2pTEjgzkmg3hd5J9yx+vjovJw0/1l9GwfEbIwj+uikRX52UQcKvnpPZFamFITAqwV/sQYZasOjnWRclxH/kI/lakYt+ajNM2D1p7jBVRGPrq3QIkrHmB4sdsbPsNLHy55ZzPhF5RV7jqyIoKk0sX7XWyiZF1KB1QwHb2v8Si5cALFUBJcRFPGvsb6jCM3VGNmqs226jvcoN+H92M8qALNsHqjcReuqRdM0YeOiOlwmBRciLSdfUkBMI5hixcFRFjq4Yhyj9jJvcSG4nJB29Z5wmQU/jyfhX8KrxXZ6J218m+J7Q3FTl9zoW0cWnGsTg2KY6ly2mOlVIgEFpuouQIb5eomX5xwCZRJCmqOGLdHnUtzRNlQOEFwCxNRkVQOxdDWWz+X4hVDRa5XCMkppXU2hRXvcr7FGLnZSv5d6WgHtpUc+pIcxaPQYVyEPqYnFj0GV8+40qDmDhyphdG9esOJho4nu62aCtugqTYkqVQA1d3OvUf1Y0C/7nD9jAKDslu5bneEqbrktVfTpeICZB6GFJPRrLJ6LHrThAnnh8ghHwGr+KTrohHmmSgmJ7RNQZKfE4wSNkjh9XxF8ec56ZnBaHFblBFQp4DPREHYul8i52LpmktVtCYkKJRQMErZBkwI0k2Kr1jxlZoN6/Aq+VLDRbwvk2sBheic9PFxmCn3WGm1KBOvhesmLT47y41sTG2X4lHhEeNfmFysm6zX3HKtIczE/OFwrMr8Y4gdD2KoiDyERD5vBTub1NzpOi88rQsV3CfbQ7B9zxE43pialVL69OwK40b2h/PG5UFu37Zxfv/aon2GngsYTNVN2kk0VSUll7LtBxkMRnp8coKBdZL7YGMAhg4dBhedW2RYLXh//XGwu1awPCA41UASml6crx9LKoNw+lSOpakZC91yukHJFwbDeId5L/uKD/dFmKrYq6qYqkxwDEYHIK7lOWj2Q9gf8dQzT0DJdOPogdpjddBj8BBb8d1cOk4/0o0+vbvCBePzoH/XAbCn6gQoK5Obm6damM8/OwkbA/XQ56x+lgRX39QF3ttsnLf7H7feBi+++ny6TFUGg5FGJScarN5jsmT5a7DWvw6efPZprbG3qaRmsWNzFNx03UgoHNO6LFKfXsPbidFz4EB1g370698dBg7uDoOGGHk+dPg0HDp4Aupqm2zF+fJqY4cDdsbgAOA7fvpD+XQ5VzUGIwuUHKk5NFmxx0SfdI5rzM286muGMDhmrkfegKjxCIJDdMTySEePNEPVzmPw8QfHILijOazadm47ZpvgEK+9Zxwy843rvq53ykgDgHFCPi91zmBkC8kRvOLH4hcXmy6/1G3w4IzL7IxpA+GSC0dCbv82Uj156jQcPtgI1XvroanJ2EHRo3s3KJo8XL/PDCsDpyLGxt38zVvhjZXLWcUxGFlsroqGqy/vgh0QXXJyoGTqNMOk/U/3VqVsOMnx+haoq2tMOp5hQ7vC924Zhr9g3/6TsKOqEXbvjUzf4IE9wTGiO4wfG93srnjTuAIwKtp//vMdfeqb2QeBwWBkCcnRmDmxwgL8ZsHD8NN5P4dKZTgJ5A/RjLWqiPvfqqyDl5Ztsf28CePyobEpsWEgOJRkb3UDNNSfhsIRuQbCGza0r/arb0LxoopTVxz5ydyfwb33z5VPLabOGgaDkWXmqsEM87//bljNydhVs8/gm0tUjd17u0NfjikRhI42Q0PjKdhbk7oByscbIlUc5v3gwRq9LNhUZTCy31xFNefX1Fx4kxsrNdfcTyOnUG0r4Ryp11XcVSW54BhZpJmhp9KewZ7dz0p5nEv+2Rih4jDvWAYSKrnDgcHIYpIjeAXJoYK5z8Q3hz2t550zEkK0xwGaqYHN+TDibPs9qh9uqIs528EKQwf1gqLCgTBE2cUrUdQczoG/vmNUcTdde4OuZBUV58nEF37ZhLOd2h/HO1uqvdpvD7RNpHdoh087H5DC4nW/ds7fgenFZwe0NLhTmH+n+s3G8sigd+Sid+RJY5mWaPHnpCg+rDuYZj/Vo7Slvd1JDoeTaGoOM6NPBn7wofv1qV5r59xoGDe3t7kReks7em3ZXqMd7ZdJnPWQKjz+xr6IHlX0xd3hvk1VcX7ITOD7CmkVE3/jpGixYkUJRO4uZbqLVhyV300V3p1B+XdC5E5kMXfOInL0aHlxtkMaxfvwQHbAQWUahLbFADoHyREwU0vwB/a07tyxTe9lfPH1ts2UcRbE8HGFULd9a1bL3g+25sDardWGc6JHFfOeBSrOQY0HVybRlwRC5UaEhyhBYtLOlcdSF9LX26udC0qqsJgOr6jw2rWQRJROkzh0tUhxiNkhYslwPzUekQZEANr2C9CfT9fl/UkFrJToDPm8pPDk+DzQtoCBm8rHA8Z9XdXwQVLJeC0kpTUgniflA5VzKIH36BRlLN+vnS8Fac9VkS71fdmNU0qnX86DVFYBOpxSOFyGal5nMlfFqsFh39yjix6DV59dAivfWWXY0Wvj3iCMzRsATeSfyzZgZ8MjL20wnMPlzX/90AJ1zbhMVnFi6Rw/GJfGQeAEZCQJj1aJvSaNT1UX4ustSEjszlUkKaYCRRGK32ocooGocYhzQmm5KA/yHDs3NWD9ewrS7l70OxinwvNL95RJ12ZJ5+R9XdXwclodVKaY3vlEwuVSuZQjMdl1B2hhi+kjIO5foJ2bI5FqBUgLpWrnRksfoDIpjXV24rTIA56bTXGIJarEkl55YHM/2fZEqraWDysXnJT+9P8sggfvfiAi0OFuXbNm9WAVv/MdMpipunmu5fGR35TJE/EzVsWRakPlgErKT39lM1Js2JILifcKI7FgA8mRzLpK+rcnjjiwwQywaPx6YyN/0mL6dzG0rUWGpFFsw9fmwsZPhzNGuXmo8YKSt1goIAIZTXGUExEMoAMgvjXUhGtoBuV/vVDLlM8p2l8kpdFSHvOI2Kro/BT1I2EVp5QHv5SH2RRXMeXBhfUIr6FVQPUq1OlIjpRLeOL+c0tehPGFE/QVSmSg2drb4cg6glu+9jSs2WTYHFrvYJk+vUTPq4SlGazibJEgNebZsRq+BZamwIFfRQ0mWkMRz/ApJK2rLlSiklkbTdUKsyudldItmY0FUrpls9wuxFpwHuo8yBOqlxSZm857lXwKsz1IHUuVij8tIk5JHat5WEj5ECZ8xo8DTeUWWG6qMLk4bxM7IZ5c+AyUXHu5oRNi2/69MHH4OXDs871Z0fB3fnYaFr72seEcdjY8+shCuP3H35XnqAJ0wE5SaYCLKrAXpFV7Lcw7FbaGzKC6IBIzW8AxpnkpNTi5gfmo/MUG0ktjKFK34pPzmJiGtolHIQU5rSoJyP7JRD+IZveVE6GV03soMXluvHGq5Y2/kUh9pCrLILKzKuOQKnMVaBeqcKVCRzyarffdeU9E2N31R+GsXr0zvrXjdLIHnt8Zcf5X9z8MK95cpnY2zG+PnbjaQc0FJb9RgUpg6EOiBl0aDwkoBCbMKFcKky5UzUIyKUvlxmkDATtpo2uGvMRhdgp/mV8yX+NRvmFyJ7WLcfgoTSVSvA6TfOnvjci7JFacVmVHCj9A+a0D893WOifJEdF5yKYPm60Xf+ESuMb5ZUO4+qZGONK3D/TIYKJDgvvlS4fh8NFjhvOYFzRTf/X4b9XK22lmN1BFr7IwEbEnfZdNE28pmT4tSs8pqq3aFCuAEDW6ufQ8PPwSKdkx1evI51RrQloi7bUYL5EAltEsfBYoDv0o1g6GWUX31EYjRykfovw8dP8CcR7rHanF9VJawu+Prs0nct1Fim294ueLiDNKHlZRundBcv7brDRX5Re5SiczzZS7/e4fQOXyd2HD1dNgd/VnBv9c1/4DoEdDfUYWzDMrmyCw0+iHw7Xi/lD+DHz161eqZqory+eoui3MUYf40tNQkwGk4ITJVSwphRkmpqaLDiQavcdWikMQR7F0n9meCvI5dY8CsQ9DgOIKSX6iUiIsdfd6L5jva4F5zKNhGHkUJry1Ig6roaEwDmHaoZOfwjugbecvsEirTqSkpMQzgmC9h6tKzkHqKRUq2kFp81HcxSZpEWlHf1s53SeuOYRyt4rTIh1T6J3lkXLM+Fk9ce3xYBeO4lHhVUr01nLxNLjX/XO4URkkjJhcMBbqPt2ckufKezwkg0VLj8JrH+yI8MO9UvEK/Pn5CsMYQGjtbCgFRodCGosnSNVF6mpKNjRERpaYq5LZ6pYlMU53WuV/C/7420URYTdW7YBejtEZUyCLV5yIIDjhh/to3fsqwVVBmrZRY8QND6lPYUqVkX+OCY5JLm1wyT6KR59aCF265MDdt/04IiD2uJ41bHiHF8b/vnUKXlizMeI8pnngwIGqH64zmKmdBmhOorlJ5hSasAMybDoZo7ORHK3AYahkP7jnDphSdKEp0VWFDkLfcYUdSnB//seGiPPY0XDLTbPhgYcfUP1w87N5TFwnJrsADXbmjw8j7UpO7Achdg/XSQKJDklDXXsOgasJ506c1K6zIrAX9fd/PWZKcJjG+Q/+Cm749ix1VkMl9SQzGIwzmeSI6NBsXS8THZLGY79+3JTo0Ed3ctjZ7TK8BAnud0uOwd/WbTcluMVPv2hGcOiH444GBoNJzgAnSP45JA1BdOoYOsT+0CHY2/0sGDB0WNoS9PGnTTDv6b2w5tMdlgTn+v5NKsFhHkrZD8dgMMmpai5kRXRoDpr56Bqbm2DDkUPQb+SolKdnxZpm+K9XdsLugwdNCQ7J9xvfmqkugolw82q/DAaTnBXRyetOhYnu8msuC3dG4Fg0FZsPVkPOyJHQLQXmK5qnj718DMpXbNJJVMX3b3bpBIfkq0zZQswhHyODwWCSi0p0hk1aRWfE6FGj9XF0ZkSHS6hXd++alKp7693jMO//7YO3NkT63/CZSLLXz7zRzAeHWMgEx2AwydklOq8Z0d314DxY894/oPL1f8Ck0ZFDSRqaG3VVd1ZBgWEHsFiorjkJj75yHB5bvg1219REXMeFL5FcUU3eMOcbZgS3mAY3MxgMJrnEiQ7x1AsV+r6lf37mRX1zGDNU1eyDHU3HoZtGdtFMWDRNX3m7Ee7403ZY+fE20zC43t3yV/6uk+utd7rUcXCC4FxcTRiM7EVa5q7ahaN4lJg8La9UCkPyBsHvHnoMTp9ugQcfedAwsV/F6Pxh0KXuiL6sOs5dLRzTC5a/3wyvf1QN1bXmS62jeYpLQF3ztVJ9TTgT/5swUVnBMRhMckkTHa5o4FeJDoFqDvdQ+NkD8+C1t/4WMblfxlCNGC8YPRjWbNwRsUy5qt5wMU/cfOYXjz0EB0KHzIJxJwODwSSXUqJzQOvyLkXqtYJhI+CeH/4ExowthP9e8IhhT9d4gL433JMB14K75z/vMhsegsAhLm4mOAaDSS4dRJdHpusss+u4XNN98+6Hrdu2wJMVf4TNu7bZJrfv3Pht+PGP7oEnFj0Gi559ysz3JgjOyePgGIzOhS6ZkhAcMEzrspnu2YjK66s3XwPvvb9G75h44/nXTaeFyeSGw0I+8Af03e2nOqfoK6FYEBxu7OFggmMwWMm1l6pT94K0VHaDB+fDCy//GZavXA4Hag/B5MKJ8B+33gYll1+hK7fFLz9n5XcTmM+T7RkMJrmOMl+RfOZGCzdpzHi45sqvwk3//h0YPGgIrH7nbXjx1edh1T9XW6k2AX2iPas3BoNJrqPJzgmtvrqCFEaLG3uU80R7BoNJLpPIDlWd2OE9UaDvjSfZMxhMchlLdLZMWAvTFMnNx6+cwWCSywaycxDZlcZQdkhuHh73xmAwyWUlSNm5yIyVfXa4qXE578HAYDCymuQUwsNhJ/rQE+5QYDAYnY7kGAwGwwxduAgYDAaTHIPBYDDJMRgMBpMcg8FgMMkxGAwGkxyDwWAwyTEYDCY5BoPBYJJjMBgMJjkGg8FgkmMwGAwmOQaDwWCSYzAYDCY5BoNxhuP/CzAAxMebDNeguq4AAAAASUVORK5CYII=" alt="Brighton International School logo">
+    <span class="tb-tag">Faculty Professional Development</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="crest"><span class="dot"></span> Nurturing Future Leaders</div>
+    <h1>AI Enablement for Faculty</h1>
+    <p class="lede">A practical, self-paced course that takes every teacher, from curious to cautious, to confident, everyday use of free AI tools that save time and strengthen teaching and learning.</p>
+    <div class="pill-row">
+      <span class="pill">7 short lessons</span>
+      <span class="pill">~30–40 min each</span>
+      <span class="pill">Free tools only</span>
+      <span class="pill">Video + reading + hands-on</span>
+      <span class="pill">Quiz after every lesson</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-shell">
+  <div class="wrap">
+    <span class="progress-label" id="progText">0 of 6 lessons complete</span>
+    <div class="bar"><span id="progBar"></span></div>
+    <button class="reset-btn" id="resetBtn" title="Clear your saved progress">Reset</button>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="block">
+  <div class="wrap">
+    <div class="card">
+      <div class="card-pad">
+        <p class="eyebrow">Before you begin</p>
+        <h2 style="margin-top:0">How this course is built to actually stick</h2>
+        <p class="why">You learn a tool by <b>doing one small, real task</b> and getting quick feedback, not by reading about it. Every lesson follows the same short rhythm. Do one per sitting; spacing them out helps them stick.</p>
+        <div class="grid3" style="margin-top:18px">
+          <div class="mini"><span class="step-n">1</span><h4>Watch &amp; Read</h4><p>A short video plus one quick article frame the idea. Roughly 15 minutes of input, no jargon.</p></div>
+          <div class="mini"><span class="step-n">2</span><h4>Try it now</h4><p>You complete one real Brighton-relevant task using a free tool. This is where the learning happens.</p></div>
+          <div class="mini"><span class="step-n">3</span><h4>Quiz &amp; carry forward</h4><p>A 4-question check locks in the key points, then you see how it feeds the next lesson.</p></div>
+        </div>
+        <div class="builds" style="margin-top:20px">
+          <b>Why this order?</b> Lesson 2 (prompting) is the master skill; Lessons 3–5 apply it; Lesson 6 covers responsible use. Follow the sequence your first time through.
+        </div>
+      </div>
+    </div>
+
+    <!-- PATHWAY MAP -->
+    <div class="card">
+      <div class="card-pad">
+        <p class="eyebrow">Your learning pathway</p>
+        <h2 style="margin-top:0">From first login to confident classroom use</h2>
+        <p class="why" style="margin-top:0">Click any step to jump straight to that lesson.</p>
+        <div class="map" id="pathMap"></div>
+      </div>
+    </div>
+
+    <!-- SELF CHECK -->
+    <div class="card">
+      <div class="card-pad">
+        <p class="eyebrow">Optional 30-second self-check</p>
+        <h2 style="margin-top:0">Where should you start?</h2>
+        <p class="why">Be honest: there are no wrong answers. This just points you to the right entry point.</p>
+        <div class="q" id="sc-q">
+          <div class="qtext"><span class="qn">?</span>Which sounds most like you today?</div>
+          <label class="opt"><input type="radio" name="selfcheck" value="0"> I've never really used an AI chatbot, or I've tried once and wasn't sure what to do.</label>
+          <label class="opt"><input type="radio" name="selfcheck" value="1"> I've used ChatGPT or Gemini a few times but my results are hit-or-miss.</label>
+          <label class="opt"><input type="radio" name="selfcheck" value="2"> I use AI fairly regularly and want classroom-specific workflows and responsible-use guidance.</label>
+        </div>
+        <div class="explain" id="sc-result"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LESSONS -->
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">The course</p>
+    <h2 style="margin-top:0;margin-bottom:18px">Six lessons</h2>
+    <div id="lessonContainer"></div>
+
+    <div class="finish card" id="finishCard" style="display:none">
+      <h2>🎓 You've completed AI Enablement for Faculty</h2>
+      <p>You now have a working AI account, a repeatable way to get great results, and tools to plan, assess, communicate and stay on the right side of academic integrity. The real win comes from using one of these in your next lesson, pick one task this week and let AI take the first draft.</p>
+      <span class="pill">Suggested next step: share one prompt that worked for you with a colleague</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Prepared for the faculty of <a href="https://brighton.edu.my/" target="_blank" rel="noopener">Brighton International School</a>, Kuala Lumpur · Cambridge International curriculum.<br>
+    All tools featured have a free tier. Always follow Brighton's data-protection and Cambridge assessment policies when using AI. AI can make mistakes: a teacher's judgement is always the final check.</p>
+  </div>
+</footer>
+
+<script>
+/* ---------------- COURSE DATA ---------------- */
+const lessons = [
+  {
+    id:"l1",
+    title:"Meet AI: what it is, what it isn't, and your first free account",
+    sub:"Demystify generative AI and get set up with a tool you'll use all course.",
+    duration:"~30 min",
+    objective:"Explain what an AI chatbot does, know its main limitation, and have a free account ready.",
+    why:"AI chatbots are excellent text-prediction assistants: great for first drafts, but confident even when wrong. Knowing that one fact changes how you use them.",
+    builds:"The foundation for everything after: an open account and the habit of checking AI's output.",
+    video:{id:"Y6cp89S6W8M", title:"ChatGPT 101 for Teachers: A Beginner's Tutorial", author:"Teacher's Tech"},
+    reads:[
+      {title:"What Is AI? (plain-English explainer)", url:"https://www.commonsense.org/education/digital-citizenship/lesson/what-is-ai", src:"Common Sense Education", mins:"6 min"},
+      {title:"Teaching with AI: getting started", url:"https://openai.com/index/teaching-with-ai/", src:"OpenAI", mins:"7 min"}
+    ],
+    tools:[
+      {name:"ChatGPT", url:"https://chatgpt.com", note:"Free account, no card needed"},
+      {name:"Google Gemini", url:"https://gemini.google.com", note:"Free with a Google account"},
+      {name:"Claude", url:"https://claude.ai", note:"Free tier, strong at writing"},
+      {name:"Microsoft Copilot", url:"https://copilot.microsoft.com", note:"Free, web-based"}
+    ],
+    tryIt:{
+      intro:"Pick ONE tool above and create a free account. Then paste this into the chat box and read the reply critically. Is anything not quite right?",
+      prompt:"Explain what photosynthesis is to a curious 11-year-old in about 6 sentences, using one everyday analogy. Then list 2 common misconceptions students have about it.",
+      steps:[
+        "Create your free account on one tool.",
+        "Paste the prompt and send it.",
+        "Read the answer. Would you actually use it with a Year 7 class? Note one thing you'd change."
+      ]
+    },
+    quiz:[
+      {q:"What is the best plain-English description of a generative AI chatbot like ChatGPT?",
+       options:["A search engine that finds verified web pages","An assistant that predicts useful text based on patterns it learned","A database of fact-checked answers","A human expert answering in real time"],
+       answer:1, explain:"It generates likely text from patterns. Powerful, but not a verified fact source."},
+      {q:"An AI tool gives you a confident answer with a specific date and quote. What should you do?",
+       options:["Trust it, it sounded certain","Verify it, because AI can state false information confidently","Assume it's always right for facts but wrong for opinions","Only check it if it's about science"],
+       answer:1, explain:"This is called a 'hallucination'. Confidence is not accuracy: always verify facts."},
+      {q:"Which of these is a genuinely good use of AI for a teacher on day one?",
+       options:["Letting it assign final grades on its own","Generating a first draft of an explanation you then refine","Posting its answer to parents unread","Using it as the single source of truth for exam content"],
+       answer:1, explain:"AI shines as a first-draft partner; you stay the editor and decision-maker."},
+      {q:"Do you need to pay to start using these tools?",
+       options:["Yes, all require a subscription","No, each has a free tier suitable for getting started","Only schools can access them","You need special software installed"],
+       answer:1, explain:"Every tool here has a free tier, so there's no cost to begin."}
+    ],
+    carry:"You have an account and a 'trust but verify' mindset. Next: the one skill that decides whether AI gives weak or excellent results."
+  },
+  {
+    id:"l2",
+    title:"Talking to AI: prompting that gets great results",
+    sub:"The master skill. Learn a simple framework you'll reuse in every lesson.",
+    duration:"~35 min",
+    objective:"Write a structured prompt (Role, Task, Context, Format) and improve a weak answer by following up instead of restarting.",
+    why:"The gap between 'AI is useless' and 'AI saves me hours' is almost always the prompt. Give it a role, a clear task, your context and a format, and you get something you can actually use.",
+    builds:"Needs your Lesson 1 account. Every later lesson is just this skill applied to a new job.",
+    video:{id:"i4HJZzwt3lY", title:"ChatGPT for Teachers | Beginner's Tutorial", author:"New EdTech Classroom"},
+    reads:[
+      {title:"AI Prompt Engineering Tips for Teachers (8 strategies)", url:"https://avidopenaccess.org/resource/ai-prompt-engineering-tips-for-teachers/", src:"AVID Open Access", mins:"8 min"},
+      {title:"ChatGPT for Teachers: 20+ prompts you can copy", url:"https://www.weareteachers.com/chatgpt-for-teachers/", src:"We Are Teachers", mins:"7 min"}
+    ],
+    tools:[
+      {name:"ChatGPT", url:"https://chatgpt.com", note:"Great for iterating"},
+      {name:"Google Gemini", url:"https://gemini.google.com", note:"Strong, free"},
+      {name:"Claude", url:"https://claude.ai", note:"Excellent for longer text"}
+    ],
+    tryIt:{
+      intro:"Use the Role, Task, Context, Format pattern. Paste this, then send ONE follow-up to refine it (e.g. 'make it harder' or 'add a Malaysian example').",
+      prompt:"You are an experienced Cambridge Lower Secondary Science teacher. (TASK) Write a 5-minute lesson starter activity to hook students on the topic of the water cycle. (CONTEXT) My class is mixed-ability Year 8 in Kuala Lumpur; English is a second language for several students. (FORMAT) Give me: a 2-sentence hook question, 3 discussion prompts, and 1 quick prediction task. Keep language clear and simple.",
+      steps:[
+        "Send the prompt above.",
+        "Read the reply, then send one follow-up to improve it.",
+        "Notice how much better the second answer is. That iteration is the real skill."
+      ]
+    },
+    quiz:[
+      {q:"What do the four parts of a strong prompt stand for?",
+       options:["Read, Test, Confirm, Finish","Role, Task, Context, Format","Repeat, Try, Check, File","Review, Type, Copy, Forward"],
+       answer:1, explain:"Role, Task, Context, Format: a hat to wear, a clear job, your situation, and the output shape you want."},
+      {q:"Your first answer is too generic. What's the most effective next move?",
+       options:["Give up, the tool can't do it","Start a brand-new chat from scratch","Send a follow-up that adds detail or asks for changes","Copy it anyway to save time"],
+       answer:2, explain:"AI keeps the conversation's context, so refining with a follow-up is faster and better than restarting."},
+      {q:"Which prompt will give the most useful result?",
+       options:["'Write about the water cycle.'","'You are a Year 8 science teacher. Write a 5-minute starter on the water cycle for mixed-ability EAL students: a hook question, 3 prompts, 1 prediction task.'","'Water cycle help'","'Make a science thing.'"],
+       answer:1, explain:"It supplies role, task, context and format, so the output is targeted and classroom-ready."},
+      {q:"Adding 'my students are EAL learners in Kuala Lumpur' is an example of giving the AI…",
+       options:["A format","Context","A role","A grade"],
+       answer:1, explain:"That's context, details about your situation that shape a more relevant answer."}
+    ],
+    carry:"With prompting sorted, aim it at your biggest time drain next: full lesson plans and differentiated resources."
+  },
+  {
+    id:"l3",
+    title:"Planning faster: lesson plans, resources & differentiation",
+    sub:"Apply prompting to the work that eats your evenings.",
+    duration:"~40 min",
+    objective:"Generate a standards-aligned lesson plan and adapt a text to different reading levels using a free teaching tool.",
+    why:"Planning and differentiation eat the most hours. Tools like MagicSchool and Diffit turn good prompts into ready-made buttons, giving you a plan or three reading levels in minutes. You refine from there.",
+    builds:"Lesson 2 prompting through purpose-built tools. Keep checking output against your curriculum.",
+    video:{id:"jwjNiBc45gs", title:"MagicSchool Tutorial for Teachers: best free tools", author:"Russell Stannard (TTVideos)"},
+    reads:[
+      {title:"MagicSchool: 60+ free teacher tools (explore the dashboard)", url:"https://www.magicschool.ai/", src:"MagicSchool", mins:"5 min"},
+      {title:"Diffit: differentiate any text to multiple reading levels", url:"https://diffit.me/", src:"Diffit", mins:"5 min"}
+    ],
+    tools:[
+      {name:"MagicSchool", url:"https://www.magicschool.ai/", note:"Free; lesson plans, worksheets, quizzes"},
+      {name:"Diffit", url:"https://diffit.me/", note:"Free; reading-level adaptation"},
+      {name:"Brisk Teaching", url:"https://www.briskteaching.com/", note:"Free Chrome extension"},
+      {name:"Khanmigo for Teachers", url:"https://www.khanmigo.ai/teachers", note:"Free; by Khan Academy"}
+    ],
+    tryIt:{
+      intro:"Open MagicSchool, choose the 'Lesson Plan Generator', and create a plan for a topic you teach next week. Then open Diffit and paste a paragraph from a textbook to see it adapted to three reading levels.",
+      prompt:"Lesson topic: [your topic next week] · Grade/Year: [your year group] · Curriculum: Cambridge · Duration: 50 minutes · Class note: mixed ability, some EAL learners. Include a starter, main activity, a differentiation idea, and an exit-ticket question.",
+      steps:[
+        "In MagicSchool, run the Lesson Plan Generator with the details above.",
+        "Edit the result: swap anything that doesn't fit your class.",
+        "In Diffit, adapt one real text and download the easier version for your weaker readers."
+      ]
+    },
+    quiz:[
+      {q:"What is the main advantage of a tool like MagicSchool over a general chatbot for planning?",
+       options:["It's the only tool that's accurate","It packages good prompts into ready-made teacher templates","It replaces the need to review the output","It writes the report cards automatically"],
+       answer:1, explain:"Education tools pre-build the prompt behind a simple form, but you still review and adapt."},
+      {q:"Diffit is most useful for which task?",
+       options:["Marking exams automatically","Adapting one text to several reading levels for differentiation","Booking parent meetings","Detecting plagiarism"],
+       answer:1, explain:"Diffit's strength is turning one text into multiple levels, fast differentiation."},
+      {q:"After generating a lesson plan with AI, what's the essential final step?",
+       options:["Deliver it exactly as written","Review and adapt it to your actual class and curriculum","Email it to parents","Delete your prompt"],
+       answer:1, explain:"Generated plans are strong drafts; your professional judgement makes them fit your students."},
+      {q:"These education AI tools are…",
+       options:["Paid only","Available with a free tier for teachers","Restricted to universities","For students, not teachers"],
+       answer:1, explain:"MagicSchool, Diffit, Brisk and Khanmigo all offer free teacher access."}
+    ],
+    carry:"You can make materials in minutes. Next: the other big time-sink, marking and feedback, with you in control."
+  },
+  {
+    id:"l4",
+    title:"Smarter assessment & feedback",
+    sub:"Build quizzes and rubrics, and draft feedback, without handing over judgement.",
+    duration:"~40 min",
+    objective:"Generate a quiz and rubric, and draft feedback you personalise, while knowing why AI must never set final grades.",
+    why:"AI can draft the mechanical parts of assessment: questions, rubrics, feedback wording. That frees your time for judgement. But grading has real consequences, so the teacher always decides.",
+    builds:"Lesson 2 prompting plus Lesson 3 tools, aimed at assessment. Integrity and privacy here lead into Lesson 6.",
+    video:{id:"uq8FdkApuLk", title:"Using Gemini for Google Workspace as an educator", author:"Google for Education"},
+    reads:[
+      {title:"Building an effective tutor & checks with MagicSchool", url:"https://www.edutopia.org/video/ai-tool-demo-building-an-effective-tutor-with-magicschool-ai/", src:"Edutopia", mins:"6 min"},
+      {title:"Eduaide: rubrics, assessments and feedback generators", url:"https://www.eduaide.ai/", src:"Eduaide", mins:"5 min"}
+    ],
+    tools:[
+      {name:"MagicSchool", url:"https://www.magicschool.ai/", note:"Quiz & rubric generators"},
+      {name:"Eduaide", url:"https://www.eduaide.ai/", note:"Free; assessment builder"},
+      {name:"Google Gemini", url:"https://gemini.google.com", note:"Draft & refine feedback"}
+    ],
+    tryIt:{
+      intro:"Generate a short quiz and a rubric, then ask AI to draft feedback you'll personalise. Important: do NOT paste real student names or identifiable data, describe the work generally.",
+      prompt:"Create a 6-question formative quiz (mix of multiple-choice and short-answer) on [topic], suitable for Cambridge [year group]. Then create a simple 4-level marking rubric for a one-paragraph written response on the same topic, with clear descriptors for each level.",
+      steps:[
+        "Generate the quiz and rubric with the prompt above.",
+        "Ask a follow-up: 'Draft 3 constructive feedback comments for a paragraph that has good ideas but weak structure.'",
+        "Personalise one comment in your own voice. That's the point."
+      ]
+    },
+    quiz:[
+      {q:"What is the safest division of labour for AI in assessment?",
+       options:["AI assigns the final grades; teacher files them","AI drafts questions, rubrics and feedback; teacher reviews and decides grades","AI does everything end to end","Teacher does everything; AI is never used"],
+       answer:1, explain:"AI handles drafting and structure; the teacher keeps ownership of judgement and grades."},
+      {q:"Before pasting student work into an AI tool, you should…",
+       options:["Add their full name for accuracy","Remove names and identifying details to protect privacy","Include their photo","Tag their parents"],
+       answer:1, explain:"Never share identifiable student data with external tools, anonymise first and follow school policy."},
+      {q:"Why shouldn't AI assign final grades on its own?",
+       options:["It's too slow","It can be inconsistent and lacks accountability for high-stakes decisions","It refuses to grade","It always grades too generously"],
+       answer:1, explain:"Grading has real consequences; reliability and accountability require a human decision-maker."},
+      {q:"A good use of AI-generated feedback is to…",
+       options:["Send it verbatim to every student","Use it as a starting draft you personalise","Replace verbal feedback entirely","Hide that feedback was given"],
+       answer:1, explain:"Drafts save time, but personalising keeps feedback meaningful and authentic."}
+    ],
+    carry:"Time reclaimed on planning and marking. Next: the emails, newsletters and admin that fill your day."
+  },
+  {
+    id:"l5",
+    title:"AI as a productivity partner: beyond the classroom",
+    sub:"Parent emails, newsletters, admin, summaries and translation.",
+    duration:"~35 min",
+    objective:"Draft professional messages in the right tone, summarise long documents, and support Brighton's multilingual families.",
+    why:"Much of a teacher's week is emails, reports and notices, plus long documents to digest. AI drafts in any tone, turns a 20-page policy into five points, and translates notices for KL families.",
+    builds:"Lesson 2 prompting applied to admin. Keep the privacy rule: no confidential personal data in the prompt.",
+    video:{id:"G5dnujSIsso", title:"27 Free Gemini AI Tools for Educators", author:"Eric Curts"},
+    reads:[
+      {title:"Google Gemini 101 for teachers: everyday workflows", url:"https://ditchthattextbook.com/google-gemini/", src:"Ditch That Textbook", mins:"7 min"},
+      {title:"NotebookLM: summarise & question your own documents", url:"https://notebooklm.google.com/", src:"Google", mins:"5 min"}
+    ],
+    tools:[
+      {name:"Google Gemini", url:"https://gemini.google.com", note:"Emails, drafts, tone"},
+      {name:"NotebookLM", url:"https://notebooklm.google.com/", note:"Free; summarise documents"},
+      {name:"Canva for Education", url:"https://www.canva.com/education/", note:"Free; visuals & newsletters"},
+      {name:"Microsoft Copilot", url:"https://copilot.microsoft.com", note:"Free; drafting"}
+    ],
+    tryIt:{
+      intro:"Draft a real message you actually need to send. Generalise any personal details. Then try a summary task.",
+      prompt:"Draft a warm, professional email to a parent about their child's improved effort in class this term. Keep it to about 120 words, positive in tone, and invite them to reach out with questions. Leave [placeholders] for the student's name and specific examples so I can fill them in.",
+      steps:[
+        "Generate the email, then ask for the same message 'in a slightly more formal tone'.",
+        "Try a summary: paste a long notice or policy and ask for '5 key points parents need to know'.",
+        "Optional: ask for a plain-English translation of a short notice into another language common at Brighton."
+      ]
+    },
+    quiz:[
+      {q:"When drafting a parent email with AI, a smart practice is to…",
+       options:["Include the student's full record for context","Use placeholders for names/details and add specifics yourself","Send it without reading","Always keep the default robotic tone"],
+       answer:1, explain:"Placeholders protect privacy and let you keep the message personal and accurate."},
+      {q:"Which task is AI especially good at for admin?",
+       options:["Making legally binding decisions","Summarising a long document into key points","Storing confidential records","Signing official forms"],
+       answer:1, explain:"Summarising long text into clear points is a core strength, you still verify the summary."},
+      {q:"For Brighton's multilingual families, AI can help by…",
+       options:["Replacing the school's official translator for legal documents","Drafting plain-language translations of routine notices you review","Auto-sending messages in every language","Grading language ability"],
+       answer:1, explain:"It's great for routine, reviewable translations; high-stakes/legal text still needs a qualified human."},
+      {q:"The privacy rule from earlier still applies here. That means…",
+       options:["Personal/confidential data should not go into public AI tools","You can paste anything in admin tasks","Privacy only matters for grades","Emails are exempt"],
+       answer:0, explain:"Keep confidential personal information out of public AI tools, in every context."}
+    ],
+    carry:"You're using AI across teaching and admin. The final lesson keeps it safe: responsible, ethical use within Cambridge's rules."
+  },
+  {
+    id:"l6",
+    title:"Using AI responsibly: ethics, integrity, privacy & student safety",
+    sub:"The capstone that keeps your practice safe and exam-compliant.",
+    duration:"~40 min",
+    objective:"Apply the key rules: protect data, check for bias and errors, uphold integrity, respect age limits, and design AI-resilient tasks.",
+    why:"All of this only helps if used safely. Students will use AI anyway, so the goal is teaching responsible use: privacy, hallucination, age limits, Cambridge integrity, and AI-resilient task design.",
+    builds:"Pulls together every lesson: verify (L1), prompt well (L2), review output (L3–L4) and protect data (L4–L5), as one professional standard.",
+    video:{id:"m4bfKc5iEyI", title:"AI Literacy Lessons (responsible use in schools)", author:"Common Sense Education"},
+    reads:[
+      {title:"AI Basics for K–12 Teachers (free course/overview)", url:"https://www.commonsense.org/education/training/ai-basics-for-k-12-teachers", src:"Common Sense Education", mins:"8 min"},
+      {title:"AI & Academic Integrity: a teacher's guide", url:"https://www.structural-learning.com/post/ai-academic-integrity", src:"Structural Learning", mins:"8 min"},
+      {title:"What responsible AI in education looks like", url:"https://schoolai.com/blog/responsible-ai-education-looks-like-how-implement", src:"SchoolAI", mins:"6 min"}
+    ],
+    tools:[
+      {name:"MagicSchool", url:"https://www.magicschool.ai/", note:"'AI-resistant assignment' tool"},
+      {name:"Common Sense AI hub", url:"https://www.commonsense.org/education/AI", note:"Free lessons & guidance"}
+    ],
+    tryIt:{
+      intro:"Create a short, student-facing 'AI use agreement' for one of your classes, and redesign one assignment to be more AI-resilient. You can use MagicSchool's AI-Resistant Assignments tool to help.",
+      prompt:"Draft a simple, friendly classroom AI-use agreement (about 6 short rules) for Cambridge [year group] students, covering: when AI use is and isn't allowed, the need to disclose AI help, why their own thinking matters, and not sharing personal data. Then suggest 2 ways to redesign an essay task so it rewards in-class thinking and personal reflection over AI-generated text.",
+      steps:[
+        "Generate the agreement and adapt it to your class and Brighton's policy.",
+        "Redesign one upcoming task using the suggestions (e.g. add in-class drafting, personal reflection, or oral defence).",
+        "Add a data-privacy line: students must never paste personal information."
+      ]
+    },
+    quiz:[
+      {q:"The most constructive question for a school facing student AI use is:",
+       options:["How do we ban it completely?","How do we teach responsible, transparent use?","How do we punish all use?","How do we ignore it?"],
+       answer:1, explain:"Teaching responsible use is more effective and realistic than bans, which are hard to enforce and miss the learning."},
+      {q:"'AI hallucination' refers to…",
+       options:["The tool crashing","AI producing confident but false or made-up information","A privacy setting","A type of image filter"],
+       answer:1, explain:"Hallucinations are fabricated outputs stated confidently, why fact-checking is essential."},
+      {q:"Which is the best way to handle academic integrity with AI?",
+       options:["Rely only on AI-detector software","Design tasks that reward in-class thinking and require disclosure of AI help","Forbid all technology","Ignore it and hope for the best"],
+       answer:1, explain:"AI detectors are unreliable; assessment design plus clear, disclosed expectations works far better."},
+      {q:"Regarding data privacy and student safety, you should…",
+       options:["Paste student names and data freely","Never enter confidential personal data and follow school/age policies","Share logins with students","Assume all tools are private"],
+       answer:1, explain:"Protect personal data, respect age requirements (commonly 13+), and follow Brighton's and Cambridge's policies."}
+    ],
+    carry:"That's the full course. You can now use free AI tools to plan, assess, communicate and lead by example on responsible use, confidently and safely."
+  }
+];
+
+/* ---------------- STATE / STORAGE ---------------- */
+const STORE_KEY = "brighton_ai_course_progress_v1";
+let completed = {};
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORE_KEY); if(raw) completed = JSON.parse(raw)||{}; }
+  catch(e){ completed = {}; }   // private mode / file restrictions -> in-memory only
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(completed)); }catch(e){}
+}
+
+/* ---------------- RENDER ---------------- */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function renderPathMap(){
+  const map = document.getElementById("pathMap");
+  map.innerHTML = lessons.map((l,i)=>`
+    <div class="map-item" role="button" tabindex="0" data-id="${l.id}"
+         onclick="openLesson('${l.id}')"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLesson('${l.id}')}">
+      <div class="map-rail"><div class="map-num">${i+1}</div><div class="map-line"></div></div>
+      <div class="map-body"><strong>${esc(l.title.split(": ")[0])}</strong>
+      <span>${esc(l.title.split(": ").slice(1).join(": ") || l.sub)}</span></div>
+      <span class="map-jump">Open ›</span>
+    </div>`).join("");
+}
+
+function renderQuestion(lid, qq, qi){
+  // shuffle option order so the correct answer isn't always in the same position
+  const items = qq.options.map((text,idx)=>({text, correct: idx===qq.answer}));
+  for(let i=items.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [items[i],items[j]]=[items[j],items[i]]; }
+  const correctIdx = items.findIndex(o=>o.correct);
+  return `
+    <div class="q" data-correct="${correctIdx}" data-qi="${qi}">
+      <div class="qtext"><span class="qn">Q${qi+1}.</span>${esc(qq.q)}</div>
+      ${items.map((o,oi)=>`
+        <label class="opt"><input type="radio" name="${lid}-q${qi}" value="${oi}"> ${esc(o.text)}</label>`).join("")}
+      <div class="explain" id="exp-${lid}-${qi}">${esc(qq.explain)}</div>
+    </div>`;
+}
+
+function renderLessons(){
+  const c = document.getElementById("lessonContainer");
+  c.innerHTML = lessons.map((l,i)=>`
+    <div class="lesson ${completed[l.id]?'done':''}" id="${l.id}" data-id="${l.id}">
+      <div class="lesson-head" onclick="toggleLesson('${l.id}')">
+        <div class="lnum">${completed[l.id]?'✓':(i+1)}</div>
+        <div class="lhead-text">
+          <h3>${esc(l.title)}</h3>
+          <div class="sub">${esc(l.sub)}</div>
+        </div>
+        <div class="lmeta">
+          <span class="badge time">${esc(l.duration)}</span>
+          <span class="badge status">${completed[l.id]?'Complete':'Not started'}</span>
+          <span class="chev">▾</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="objective">
+          <p class="eyebrow">What you'll be able to do</p>
+          <p>${esc(l.objective)}</p>
+        </div>
+        <details class="more"><summary>Why this matters</summary><p>${esc(l.why)}</p></details>
+        <details class="more"><summary>How this builds on earlier lessons</summary><p>${esc(l.builds)}</p></details>
+
+        <div class="sec-label"><span class="ico">▶</span> Watch</div>
+        <div class="video-frame facade" data-vid="${l.video.id}" role="button" tabindex="0"
+             aria-label="Play video: ${esc(l.video.title)}"
+             style="background-image:url('https://i.ytimg.com/vi/${l.video.id}/hqdefault.jpg')">
+          <span class="play-btn" aria-hidden="true"></span>
+        </div>
+        <div class="video-cap">${esc(l.video.title)}, ${esc(l.video.author)} &nbsp;·&nbsp;
+          <a href="https://www.youtube.com/watch?v=${l.video.id}" target="_blank" rel="noopener">Watch on YouTube ↗</a></div>
+
+        <div class="sec-label"><span class="ico">📖</span> Read (pick one)</div>
+        <ul class="reads">
+          ${l.reads.map(r=>`<li>
+            <span><a href="${r.url}" target="_blank" rel="noopener">${esc(r.title)}</a>
+            <span class="src">${esc(r.src)}</span></span>
+            <span class="rt">${esc(r.mins)}</span></li>`).join("")}
+        </ul>
+
+        <div class="sec-label"><span class="ico">🧰</span> Free tools for this lesson</div>
+        <div class="tools">
+          ${l.tools.map(t=>`<a class="tool" href="${t.url}" target="_blank" rel="noopener">
+            <span class="free-tag">Free</span><b>${esc(t.name)}</b><span>${esc(t.note)}</span></a>`).join("")}
+        </div>
+
+        <div class="sec-label"><span class="ico">✏️</span> Try it now</div>
+        <div class="tryit">
+          <p class="eyebrow">Hands-on task</p>
+          <h4>Do this before the quiz</h4>
+          <p style="margin:0 0 10px">${esc(l.tryIt.intro)}</p>
+          <ol>${l.tryIt.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+          <div class="prompt-box" id="prompt-${l.id}">${esc(l.tryIt.prompt)}</div>
+          <button class="copy-btn" onclick="copyPrompt('${l.id}', this)">Copy prompt</button>
+        </div>
+
+        <div class="sec-label"><span class="ico">✓</span> Quick quiz</div>
+        <div class="quiz" id="quiz-${l.id}">
+          <h4>Check your understanding</h4>
+          <p class="qsub">Answer all four, then press Check. Score 3/4 or higher to complete the lesson.</p>
+          ${l.quiz.map((qq,qi)=>renderQuestion(l.id,qq,qi)).join("")}
+          <div class="quiz-actions">
+            <button class="check-btn" onclick="checkQuiz('${l.id}')">Check answers</button>
+            <span class="score" id="score-${l.id}"></span>
+          </div>
+        </div>
+
+        <div class="carry"><b>Carry forward →</b> ${esc(l.carry)}</div>
+        ${i < lessons.length-1 ? `<button class="next-btn" onclick="openLesson('${lessons[i+1].id}')">Next lesson: ${esc(lessons[i+1].title.split(": ")[0])} ›</button>` : ""}
+      </div>
+    </div>`).join("");
+}
+
+/* ---------------- INTERACTIONS ---------------- */
+function toggleLesson(id){
+  const el = document.getElementById(id);
+  el.classList.toggle("open");
+}
+function openLesson(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.add("open");
+  el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+function playVideo(f){
+  if(!f.classList.contains("facade")) return;
+  const id = f.dataset.vid;
+  // YouTube's inline player returns "Error 153" when the page is opened directly
+  // from disk (a file:// address). In that case, open the video on YouTube instead.
+  if(location.protocol === "file:"){
+    window.open("https://www.youtube.com/watch?v="+id, "_blank", "noopener");
+    return;
+  }
+  const ifr = document.createElement("iframe");
+  ifr.src = "https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0&origin="+encodeURIComponent(location.origin);
+  ifr.title = "YouTube video player";
+  ifr.setAttribute("allow","accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
+  ifr.allowFullscreen = true;
+  f.classList.remove("facade");
+  f.style.backgroundImage = "";
+  f.innerHTML = "";
+  f.appendChild(ifr);
+}
+function copyPrompt(id, btn){
+  const text = document.getElementById("prompt-"+id).innerText;
+  navigator.clipboard?.writeText(text).then(()=>{
+    const old = btn.textContent; btn.textContent = "Copied ✓";
+    setTimeout(()=>btn.textContent=old,1600);
+  }).catch(()=>{ btn.textContent="Select & copy manually"; });
+}
+
+function checkQuiz(id){
+  const quiz = document.getElementById("quiz-"+id);
+  const qs = quiz.querySelectorAll(".q");
+  let correct = 0, answeredAll = true;
+  qs.forEach((q,qi)=>{
+    const chosen = q.querySelector("input:checked");
+    const correctIdx = parseInt(q.dataset.correct,10);
+    const exp = document.getElementById("exp-"+id+"-"+qi);
+    q.querySelectorAll(".opt").forEach(o=>o.classList.remove("correct","wrong","locked"));
+    if(!chosen){ answeredAll = false; }
+    q.querySelectorAll(".opt").forEach((o,oi)=>{
+      o.classList.add("locked");
+      if(oi===correctIdx) o.classList.add("correct");
+      if(chosen && parseInt(chosen.value,10)===oi && oi!==correctIdx) o.classList.add("wrong");
+    });
+    exp.classList.add("show");
+    if(chosen && parseInt(chosen.value,10)===correctIdx){ correct++; exp.classList.add("ok"); exp.classList.remove("no"); }
+    else { exp.classList.add("no"); exp.classList.remove("ok"); }
+  });
+  const scoreEl = document.getElementById("score-"+id);
+  if(!answeredAll){
+    // unlock so they can answer the rest
+    quiz.querySelectorAll(".opt").forEach(o=>o.classList.remove("locked"));
+    quiz.querySelectorAll(".explain").forEach(e=>e.classList.remove("show"));
+    scoreEl.textContent = "Please answer all four questions first.";
+    scoreEl.className = "score fail";
+    return;
+  }
+  const pass = correct >= 3;
+  scoreEl.textContent = `You scored ${correct} / 4 · ${pass?"passed ✓":"try again"}`;
+  scoreEl.className = "score " + (pass?"pass":"fail");
+  if(pass){
+    completed[id] = true; saveProgress(); markDone(id); updateProgress();
+  } else {
+    // allow retry: re-enable after a moment
+    setTimeout(()=>{
+      quiz.querySelectorAll(".opt").forEach(o=>o.classList.remove("locked","correct","wrong"));
+      quiz.querySelectorAll(".explain").forEach(e=>e.classList.remove("show","ok","no"));
+    }, 4000);
+  }
+}
+
+function markDone(id){
+  const el = document.getElementById(id);
+  el.classList.add("done");
+  const idx = lessons.findIndex(l=>l.id===id);
+  el.querySelector(".lnum").textContent = "✓";
+  el.querySelector(".badge.status").textContent = "Complete";
+}
+
+function updateProgress(){
+  const done = lessons.filter(l=>completed[l.id]).length;
+  const pct = Math.round((done/lessons.length)*100);
+  document.getElementById("progBar").style.width = pct+"%";
+  document.getElementById("progText").textContent = `${done} of ${lessons.length} lessons complete`;
+  document.getElementById("finishCard").style.display = (done===lessons.length)?"block":"none";
+}
+
+/* ---------------- SELF CHECK ---------------- */
+function initSelfCheck(){
+  const tips = [
+    "Perfect, start at Lesson 1 and go in order. Take it slowly; the first two lessons set you up for everything else.",
+    "Great, do a quick skim of Lesson 1, then focus on Lesson 2 (prompting). That's where your hit-or-miss results will turn consistent.",
+    "Excellent, you can move quickly through Lessons 1–2, then spend your time on Lessons 3–6, especially Lesson 6 on responsible use."
+  ];
+  document.querySelectorAll('input[name="selfcheck"]').forEach(r=>{
+    r.addEventListener("change", e=>{
+      const res = document.getElementById("sc-result");
+      res.textContent = tips[parseInt(e.target.value,10)];
+      res.classList.add("show");
+    });
+  });
+}
+
+/* ---------------- RESET ---------------- */
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  completed = {}; saveProgress();
+  renderLessons(); updateProgress();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ---------------- INIT ---------------- */
+loadProgress();
+renderPathMap();
+renderLessons();
+updateProgress();
+initSelfCheck();
+
+// click-to-play videos (works reliably inside collapsible lessons)
+const lc = document.getElementById("lessonContainer");
+lc.addEventListener("click", e=>{
+  const f = e.target.closest(".facade");
+  if(f) playVideo(f);
+});
+lc.addEventListener("keydown", e=>{
+  if(e.key==="Enter" || e.key===" "){
+    const f = e.target.closest(".facade");
+    if(f){ e.preventDefault(); playVideo(f); }
+  }
+});
+</script>
+</body>
+</html>
